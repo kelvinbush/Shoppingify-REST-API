@@ -13,5 +13,5 @@ export class CurrentList {
   quantity: number;
 
   @ManyToOne(() => Item)
-  items: Item[];
+  item: Item;
 }

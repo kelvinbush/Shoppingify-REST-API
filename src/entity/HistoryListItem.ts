@@ -11,8 +11,8 @@ export class HistoryListItem {
   quantity: number;
 
   @ManyToOne(() => Item)
-  itemId: Item;
+  item: Item;
 
   @ManyToOne(() => HistoryList)
-  historyId: HistoryList;
+  history: HistoryList;
 }
