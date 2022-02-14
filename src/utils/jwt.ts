@@ -32,7 +32,7 @@ export function verifyJwt(
             expired: false,
             decoded,
         };
-    } catch (e: any) {
+    } catch (e) {
         console.error(e);
         return {
             valid: false,
