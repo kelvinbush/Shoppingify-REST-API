@@ -1,10 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Item } from "./Item";
+import { HistoryList } from "./HistoryList";
 
 @Entity("history_list_item")
-class HistoryListItem {
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+export class HistoryListItem {
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column({ nullable: false })
-    quantity: number;
+  @Column({ nullable: false })
+  quantity: number;
+
+  @ManyToOne(() => Item)
+  itemId: Item;
+
+  @ManyToOne(() => HistoryList)
+  historyId: HistoryList;
 }

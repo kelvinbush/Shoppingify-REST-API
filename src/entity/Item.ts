@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { CategoryItem } from "./CategoryItem";
 
 @Entity("item")
-class Item {
+export class Item {
   @PrimaryGeneratedColumn("uuid")
   id: number;
 
@@ -13,4 +14,7 @@ class Item {
 
   @Column({ default: "" })
   imageUrl: string;
+
+  @ManyToOne(() => CategoryItem)
+  categoryId: CategoryItem;
 }

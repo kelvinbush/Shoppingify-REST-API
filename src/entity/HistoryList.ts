@@ -1,32 +1,37 @@
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
+import { User } from "./User";
 
 @Entity("history")
-class HistoryList {
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+export class HistoryList {
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column({nullable: false})
-    name: string;
+  @Column({ nullable: false })
+  name: string;
 
-    @Column()
-    isComplete: boolean;
+  @Column()
+  isComplete: boolean;
 
-    @CreateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-    })
-    created_at: Date;
+  @ManyToOne(() => User, (user) => user.historyList)
+  user: User;
 
-    @UpdateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-        onUpdate: "CURRENT_TIMESTAMP(6)",
-    })
-    modified_at: Date;
+  @CreateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
+  })
+  modified_at: Date;
 }

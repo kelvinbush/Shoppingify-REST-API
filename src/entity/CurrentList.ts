@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Item } from "./Item";
 
 @Entity("current")
-class CurrentList {
+export class CurrentList {
   @PrimaryGeneratedColumn("uuid")
   id: number;
 
@@ -10,4 +11,7 @@ class CurrentList {
 
   @Column({ nullable: false })
   quantity: number;
+
+  @ManyToOne(() => Item)
+  items: Item[];
 }

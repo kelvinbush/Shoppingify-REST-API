@@ -1,15 +1,51 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import argon2 from "argon2";
+import { CurrentList } from "./CurrentList";
+import { HistoryList } from "./HistoryList";
+import logger from "../utils/logger";
 
-@Entity({name: "user"})
+@Entity({ name: "user" })
 export class User {
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+  @Column({ unique: true, nullable: false })
+  email: string;
 
-    @Column({unique: true, nullable: false})
-    email: string
+  @Column({ default: "" })
+  name: string;
 
-    @Column({default: ""})
-    name: string
+  @Column({ nullable: false })
+  password: string;
 
+  @OneToOne(() => CurrentList)
+  @JoinColumn()
+  activeList: CurrentList;
+
+  @OneToMany(() => HistoryList, (hist) => hist.user)
+  historyList: HistoryList[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    this.password = await argon2.hash(this.password);
+  }
+
+  async comparePassword(candidatePassword: string) {
+    try {
+      return await argon2.verify(this.password, candidatePassword);
+    } catch (e) {
+      logger.error(e.message);
+      return false;
+    }
+  }
 }
