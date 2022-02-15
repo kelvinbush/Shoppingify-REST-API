@@ -1,9 +1,31 @@
-import { Express, Request, Response } from "express";
+import { Express, Request, Response } from 'express';
+import validateResource from './middleware/validateResource';
+import { createSessionSchema } from './schema/createSessionSchema';
+import {
+  createSessionHandler,
+  deleteSessionHandler,
+  getSessionsHandler,
+} from './controller/session.controller';
+import requireUser from './middleware/requireUser';
+import { createUserSchema } from './schema/createUserSchema';
+import { createUserHandler } from './controller/user.controller';
 
 function routes(app: Express) {
-  app.get("/health-check", (req: Request, res: Response) =>
+  app.get('/health-check', (req: Request, res: Response) =>
     res.send({ message: `We are live baby 😁😁` })
   );
+
+  // sessions
+  app.post(
+    '/api/sessions',
+    validateResource(createSessionSchema),
+    createSessionHandler
+  );
+  app.get('/api/sessions', requireUser, getSessionsHandler);
+  app.delete('/api/sessions', requireUser, deleteSessionHandler);
+
+  // user
+  app.post('/api/users', validateResource(createUserSchema), createUserHandler);
 }
 
 export default routes;

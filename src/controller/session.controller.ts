@@ -8,7 +8,7 @@ import {
 } from "../service/session.service";
 import { signJwt } from "../utils/jwt";
 
-export async function createAuthSessionHandler(req: Request, res: Response) {
+export async function createSessionHandler(req: Request, res: Response) {
   const user = await validatePassword(req.body);
   if (!user) return res.status(401).send("Invalid email or password");
 
@@ -32,13 +32,13 @@ export async function createAuthSessionHandler(req: Request, res: Response) {
   return res.send({ accessToken, refreshToken, user: result });
 }
 
-export async function getUserAuthSessionsHandler(req: Request, res: Response) {
+export async function getSessionsHandler(req: Request, res: Response) {
   const userId = res.locals.user.id;
   const sessions = await findUserAuthSessions(userId);
   return res.send(sessions);
 }
 
-export async function deleteAuthSessionHandler(req: Request, res: Response) {
+export async function deleteSessionHandler(req: Request, res: Response) {
   const userId = res.locals.user.id;
   try {
     await updateSession(userId);
