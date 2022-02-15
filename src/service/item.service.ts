@@ -34,6 +34,25 @@ export async function addNewUserItem(
   }
 }
 
+export async function getAllItems(userId: string) {
+  try {
+    const user = await getRepository(User).findOne({ id: userId });
+    if (!user) return;
+
+    const adminItems = await getRepository(AdminItem).find({
+      relations: ['item'],
+    });
+    const userItems = await getRepository(UserItem).find({
+      where: { user },
+      relations: ['item'],
+    });
+
+    return adminItems.concat(userItems);
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function getUserById(id: string): Promise<User> {
   try {
     const userRepo = getRepository(User);

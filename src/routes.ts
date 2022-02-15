@@ -10,7 +10,10 @@ import requireUser from './middleware/requireUser';
 import { createUserSchema } from './schema/createUserSchema';
 import { createUserHandler } from './controller/user.controller';
 import { createItemSchema } from './schema/createItemSchema';
-import { createItemHandler } from './controller/item.controller';
+import {
+  createItemHandler,
+  getAllItemsHandler,
+} from './controller/item.controller';
 
 function routes(app: Express) {
   app.get('/health-check', (req: Request, res: Response) =>
@@ -35,6 +38,8 @@ function routes(app: Express) {
     [requireUser, validateResource(createItemSchema)],
     createItemHandler
   );
+
+  app.get('/api/items', requireUser, getAllItemsHandler);
 }
 
 export default routes;
