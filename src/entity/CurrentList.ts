@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Item } from './Item';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ActiveListItem } from './ActiveListItem';
 
 @Entity('current')
 export class CurrentList {
@@ -9,9 +9,8 @@ export class CurrentList {
   @Column({ default: '' })
   name: string;
 
-  @Column({ nullable: false })
-  quantity: number;
-
-  @ManyToOne(() => Item)
-  item: Item;
+  @OneToMany(() => ActiveListItem, (item) => item.current, {
+    cascade: true,
+  })
+  items: ActiveListItem[];
 }

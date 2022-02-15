@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User';
+import { HistoryListItem } from './HistoryListItem';
 
 @Entity('history')
 export class HistoryList {
@@ -16,11 +18,14 @@ export class HistoryList {
   @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   isComplete: boolean;
 
-  @ManyToOne(() => User, (user) => user.historyList)
+  @ManyToOne(() => User)
   user: User;
+
+  @OneToMany(() => HistoryListItem, (item) => item.history, { cascade: true })
+  items: HistoryListItem[];
 
   @CreateDateColumn({
     type: 'timestamp',

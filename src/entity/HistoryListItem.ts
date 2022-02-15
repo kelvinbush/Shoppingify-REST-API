@@ -13,6 +13,6 @@ export class HistoryListItem {
   @ManyToOne(() => Item)
   item: Item;
 
-  @ManyToOne(() => HistoryList)
+  @ManyToOne(() => HistoryList, (list) => list.items)
   history: HistoryList;
 }
