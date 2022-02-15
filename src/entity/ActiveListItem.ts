@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Item } from './Item';
 import { Min } from 'class-validator';
 import { CurrentList } from './CurrentList';
@@ -13,8 +21,9 @@ export class ActiveListItem {
   quantity: number;
 
   @ManyToOne(() => Item)
+  @JoinColumn()
   item: Item;
 
-  @ManyToOne(() => CurrentList, (list) => list.items)
+  @ManyToOne(() => CurrentList)
   current: CurrentList;
 }

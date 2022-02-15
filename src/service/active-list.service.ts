@@ -1,25 +1,17 @@
 import { CreateActiveListInput } from '../utils/my-types';
-import { getRepository } from 'typeorm';
+import { getManager, getRepository } from 'typeorm';
 import { CurrentList } from '../entity/CurrentList';
-import { ActiveListItem } from '../entity/ActiveListItem';
+import { createActiveListQuery } from '../utils/raw-query';
 
 export async function createActiveList(data: CreateActiveListInput) {
   try {
     const currentRepo = getRepository(CurrentList);
-    const current = new CurrentList();
-    const activeListItems: ActiveListItem[] = [];
-
-    for (const element of data.listItems) {
-      const item = new ActiveListItem();
-      item.item = element.item;
-      item.current = current;
-      item.quantity = element.quantity;
-      activeListItems.push(item);
-    }
-
-    current.name = data.name;
-    current.items = activeListItems;
-    return await currentRepo.save(current);
+    const current = currentRepo.create({ name: data.name });
+    const list = await currentRepo.save(current);
+    const rawData = await getManager().query(
+      createActiveListQuery(data.listItems, list.id)
+    );
+    return;
   } catch (e) {
     throw e;
   }

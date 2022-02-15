@@ -14,6 +14,7 @@ import {
   createItemHandler,
   getAllItemsHandler,
 } from './controller/item.controller';
+import { createActiveListHandler } from './controller/active-list.controller';
 
 function routes(app: Express) {
   app.get('/health-check', (req: Request, res: Response) =>
@@ -38,8 +39,10 @@ function routes(app: Express) {
     [requireUser, validateResource(createItemSchema)],
     createItemHandler
   );
-
   app.get('/api/items', requireUser, getAllItemsHandler);
+
+  // active-list
+  app.post('/api/active', requireUser, createActiveListHandler);
 }
 
 export default routes;

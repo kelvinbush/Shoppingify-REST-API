@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ActiveListItem } from './ActiveListItem';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('current')
 export class CurrentList {
@@ -8,9 +7,4 @@ export class CurrentList {
 
   @Column({ default: '' })
   name: string;
-
-  @OneToMany(() => ActiveListItem, (item) => item.current, {
-    cascade: true,
-  })
-  items: ActiveListItem[];
 }

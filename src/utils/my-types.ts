@@ -2,10 +2,10 @@ import { Item } from '../entity/Item';
 
 export interface CreateActiveListInput {
   name: string;
-  listItems: ActiveListItem[];
+  listItems: ActiveListItemInput[];
 }
 
-interface ActiveListItem {
-  item: Item;
+export interface ActiveListItemInput {
+  itemId: string;
   quantity: number;
 }
