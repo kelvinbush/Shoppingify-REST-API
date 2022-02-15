@@ -1,18 +1,18 @@
-import { getRepository } from "typeorm";
-import { User } from "../entity/User";
-import logger from "../utils/logger";
-import { UserInput } from "../utils/mu-types";
+import { getRepository } from 'typeorm';
+import { User } from '../entity/User';
+import logger from '../utils/logger';
+import { CreateUserInput } from '../schema/createUserSchema';
 
-export async function createUser(input: UserInput): Promise<UserInput> {
-  const { name, email, password } = input;
+export async function createUser(input: CreateUserInput['body']) {
+  const { name, email, password, isAdmin } = input;
   const userRepo = getRepository(User);
   try {
-    const user = userRepo.create({ name, email, password });
+    const user = userRepo.create({ name, email, password, isAdmin });
     await userRepo.save(user);
-    return { name, email, password };
+    return { name, email, password, isAdmin };
   } catch (e: any) {
     if (e.errno == 1062) {
-      throw new Error("1062");
+      throw new Error('1062');
     }
     throw new Error(e);
   }
@@ -35,15 +35,15 @@ export async function validatePassword({
 export async function getPartialUserByEmail(email: string) {
   try {
     const user = await getRepository(User)
-      .createQueryBuilder("user")
+      .createQueryBuilder('user')
       .select([
-        "user.id",
-        "user.name",
-        "user.email",
-        "user.password",
-        "user.activeListId",
+        'user.id',
+        'user.name',
+        'user.email',
+        'user.password',
+        'user.activeListId',
       ])
-      .where("user.email = :email", { email })
+      .where('user.email = :email', { email })
       .getOne();
     if (!user) return false;
     return user;
@@ -54,10 +54,10 @@ export async function getPartialUserByEmail(email: string) {
 
 export async function getPartialUserByAuthSession(id: string) {
   const user = await getRepository(User)
-    .createQueryBuilder("user")
-    .select(["user.id", "user.name", "user.email"])
-    .innerJoin("user.authSessions", "session")
-    .where("session.id = :id", { id })
+    .createQueryBuilder('user')
+    .select(['user.id', 'user.name', 'user.email'])
+    .innerJoin('user.authSessions', 'session')
+    .where('session.id = :id', { id })
     .getOne();
 
   if (!user) return false;

@@ -1,15 +1,14 @@
-import express from "express";
-import * as dotenv from "dotenv";
-import config from "config";
-import cookieParser from "cookie-parser";
-import logger from "./utils/logger";
-import connectToDatabase from "./utils/connectToDb";
-import routes from "./routes";
-import deserializeUser from "./middleware/deserializeUser";
-
+import express from 'express';
+import * as dotenv from 'dotenv';
 dotenv.config();
+import config from 'config';
+import cookieParser from 'cookie-parser';
+import logger from './utils/logger';
+import connectToDatabase from './utils/connectToDb';
+import routes from './routes';
+import deserializeUser from './middleware/deserializeUser';
 
-const port = process.env.PORT || config.get<number>("port");
+const port = process.env.PORT || config.get<number>('port');
 
 const app = express();
 

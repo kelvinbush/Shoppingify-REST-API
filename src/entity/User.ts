@@ -7,25 +7,28 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import argon2 from "argon2";
-import { CurrentList } from "./CurrentList";
-import { HistoryList } from "./HistoryList";
-import logger from "../utils/logger";
+} from 'typeorm';
+import argon2 from 'argon2';
+import { CurrentList } from './CurrentList';
+import { HistoryList } from './HistoryList';
+import logger from '../utils/logger';
 
-@Entity({ name: "user" })
+@Entity({ name: 'user' })
 export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   name: string;
 
   @Column({ nullable: false })
   password: string;
+
+  @Column({ default: false })
+  isAdmin: boolean;
 
   @OneToOne(() => CurrentList)
   @JoinColumn()

@@ -1,12 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Item } from "./Item";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Item } from './Item';
 
-@Entity("current")
+@Entity('current')
 export class CurrentList {
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   name: string;
 
   @Column({ nullable: false })
