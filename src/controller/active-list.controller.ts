@@ -5,7 +5,10 @@ import { CreateActiveListInput } from '../utils/my-types';
 
 export async function createActiveListHandler(req: Request, res: Response) {
   try {
-    await createActiveList(req.body as CreateActiveListInput);
+    await createActiveList(
+      req.body as CreateActiveListInput,
+      res.locals.user.id
+    );
     return res.sendStatus(200);
   } catch (e) {
     logger.error(e);

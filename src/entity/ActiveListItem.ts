@@ -21,7 +21,6 @@ export class ActiveListItem {
   quantity: number;
 
   @ManyToOne(() => Item)
-  @JoinColumn()
   item: Item;
 
   @ManyToOne(() => CurrentList)

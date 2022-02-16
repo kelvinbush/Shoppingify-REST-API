@@ -7,7 +7,6 @@ export const createActiveListQuery = (
   currentId: string
 ): string => {
   let complete = ``;
-  const activeRepo = getRepository(ActiveListItem);
 
   data.forEach((item) => {
     complete += `('${item.itemId}${currentId}','${item.quantity}','${item.itemId}','${currentId}'),`;

@@ -30,7 +30,7 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @OneToOne(() => CurrentList)
+  @OneToOne(() => CurrentList, { eager: true })
   @JoinColumn()
   activeList: CurrentList;
 
@@ -44,6 +44,7 @@ export class User {
   }
 
   async comparePassword(candidatePassword: string) {
+    logger.info(this.password);
     try {
       return await argon2.verify(this.password, candidatePassword);
     } catch (e) {

@@ -28,6 +28,7 @@ export async function validatePassword({
   const user = await getPartialUserByEmail(email);
   if (!user) return false;
   const isValid = await user.comparePassword(password);
+  logger.info(password);
   if (!isValid) return false;
   return user;
 }
