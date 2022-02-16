@@ -14,7 +14,10 @@ import {
   createItemHandler,
   getAllItemsHandler,
 } from './controller/item.controller';
-import { createActiveListHandler } from './controller/active-list.controller';
+import {
+  createActiveListHandler,
+  getActiveListHandler,
+} from './controller/active-list.controller';
 
 function routes(app: Express) {
   app.get('/health-check', (req: Request, res: Response) =>
@@ -43,6 +46,7 @@ function routes(app: Express) {
 
   // active-list
   app.post('/api/active', requireUser, createActiveListHandler);
+  app.get('/api/active', requireUser, getActiveListHandler);
 }
 
 export default routes;

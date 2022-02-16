@@ -16,13 +16,12 @@ export async function createActiveList(
     const activeRepo = getRepository(ActiveListItem);
     const itemRepo = getRepository(Item);
     const user = await userRepo.findOne({ id: userId });
-    if (!user) return false;
+    checkUser(user);
     const userList = user.activeList;
-    checkData(userList);
+    checkList(userList);
     const current = currentRepo.create({ name: data.name });
     await currentRepo.save(current);
-    user.activeList = current;
-    await userRepo.save(user);
+    await userRepo.update({ id: user.id }, { activeList: current });
     for (const listItem of data.listItems) {
       const item = await itemRepo.findOne({ id: listItem.itemId });
       const activeItem = activeRepo.create({
@@ -38,8 +37,24 @@ export async function createActiveList(
   }
 }
 
-// validate.js
-function checkData(data: CurrentList) {
+export async function getCurrentList(listId: string) {
+  try {
+    return await getRepository(ActiveListItem)
+      .createQueryBuilder('active_list_item')
+      .where('active_list_item.currentId = :id', { id: listId })
+      .printSql()
+      .getMany();
+  } catch (e) {
+    throw e;
+  }
+}
+
+function checkList(data: CurrentList) {
   logger.info(data);
   if (data != null) throw Error('List already exists');
+}
+
+function checkUser(user: User) {
+  logger.info(user);
+  if (!user) throw Error('User does not exist');
 }
