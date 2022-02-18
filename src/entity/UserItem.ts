@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 import { Item } from './Item';
 
@@ -10,6 +10,6 @@ export class UserItem {
   @ManyToOne(() => User)
   user: User;
 
-  @ManyToOne(() => Item)
+  @ManyToOne(() => Item, { eager: true })
   item: Item;
 }

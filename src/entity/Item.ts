@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryItem } from './CategoryItem';
 
 @Entity('item')
@@ -16,5 +16,6 @@ export class Item {
   imageUrl: string;
 
   @ManyToOne(() => CategoryItem, { eager: true })
+  @JoinColumn({ name: 'category_id' })
   category: CategoryItem;
 }

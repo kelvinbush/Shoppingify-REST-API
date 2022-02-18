@@ -27,7 +27,7 @@ export async function createItemHandler(
 export async function getAllItemsHandler(req: Request, res: Response) {
   try {
     const results = await getAllItems(res.locals.user.id);
-    return res.send({ results });
+    return res.send(results);
   } catch (e) {
     logger.error(e);
     return res.status(500);

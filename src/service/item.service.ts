@@ -1,5 +1,5 @@
 import logger from '../utils/logger';
-import { getRepository } from 'typeorm';
+import { getRepository, getManager } from 'typeorm';
 import { CategoryItem } from '../entity/CategoryItem';
 import { Item } from '../entity/Item';
 import { AddItemInput } from '../schema/createItemSchema';
@@ -39,15 +39,33 @@ export async function getAllItems(userId: string) {
     const user = await getRepository(User).findOne({ id: userId });
     if (!user) return;
 
-    const adminItems = await getRepository(AdminItem).find({
-      relations: ['item'],
-    });
-    const userItems = await getRepository(UserItem).find({
-      where: { user },
-      relations: ['item'],
-    });
+    const userItems = await getManager()
+      .createQueryBuilder(CategoryItem, 'category')
+      .select('category.name', 'category')
+      .addSelect('item.id', 'id')
+      .addSelect('item.name', 'name')
+      .addSelect('item.imageUrl', 'imageUrl')
+      .addSelect('item.note', 'note')
+      .leftJoin(Item, 'item', 'item.category_id = category.id')
+      .innerJoin(UserItem, 'user', 'item.id = user.itemId')
+      .where('user.userId = :id', { id: userId })
+      .getRawMany();
 
-    return adminItems.concat(userItems);
+
+    const adminItems = await getManager()
+      .createQueryBuilder(CategoryItem, 'category')
+      .select('category.name', 'category')
+      .addSelect('item.id', 'id')
+      .addSelect('item.name', 'name')
+      .addSelect('item.imageUrl', 'imageUrl')
+      .addSelect('item.note', 'note')
+      .leftJoin(Item, 'item', 'item.category_id = category.id')
+      .innerJoin(AdminItem, 'admin', 'item.id = admin.itemId')
+      .getRawMany();
+
+
+
+    return { list: userItems.concat(adminItems) };
   } catch (e) {
     throw e;
   }
