@@ -21,8 +21,8 @@ export async function createActiveListHandler(req: Request, res: Response) {
 
 export async function getActiveListHandler(req: Request, res: Response) {
   try {
-    const result = await getCurrentList(req.body);
-    return res.send({ result });
+    const response = await getCurrentList(res.locals.user.id);
+    return res.send({ response });
   } catch (e) {
     logger.error(e);
     return res.sendStatus(500);

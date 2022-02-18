@@ -15,6 +15,6 @@ export class Item {
   @Column({ default: '' })
   imageUrl: string;
 
-  @ManyToOne(() => CategoryItem)
+  @ManyToOne(() => CategoryItem, { eager: true })
   category: CategoryItem;
 }

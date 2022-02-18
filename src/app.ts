@@ -7,10 +7,19 @@ import logger from './utils/logger';
 import connectToDatabase from './utils/connectToDb';
 import routes from './routes';
 import deserializeUser from './middleware/deserializeUser';
+import cors from 'cors';
 
 const port = process.env.PORT || config.get<number>('port');
+const origin = process.env.ORIGIN || config.get<string>('origin');
 
 const app = express();
+
+app.use(
+  cors({
+    origin: origin,
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 

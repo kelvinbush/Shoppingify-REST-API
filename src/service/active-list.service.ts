@@ -4,7 +4,6 @@ import { CurrentList } from '../entity/CurrentList';
 import { ActiveListItem } from '../entity/ActiveListItem';
 import { Item } from '../entity/Item';
 import { User } from '../entity/User';
-import logger from '../utils/logger';
 
 export async function createActiveList(
   data: CreateActiveListInput,
@@ -17,8 +16,6 @@ export async function createActiveList(
     const itemRepo = getRepository(Item);
     const user = await userRepo.findOne({ id: userId });
     checkUser(user);
-    const userList = user.activeList;
-    checkList(userList);
     const current = currentRepo.create({ name: data.name });
     await currentRepo.save(current);
     await userRepo.update({ id: user.id }, { activeList: current });
@@ -37,24 +34,20 @@ export async function createActiveList(
   }
 }
 
-export async function getCurrentList(listId: string) {
+export async function getCurrentList(userId: string) {
   try {
-    return await getRepository(ActiveListItem)
-      .createQueryBuilder('active_list_item')
-      .where('active_list_item.currentId = :id', { id: listId })
-      .printSql()
-      .getMany();
+    const user = await getRepository(User).findOne({ id: userId });
+    checkUser(user);
+    const result = await getRepository(ActiveListItem).find({
+      where: { current: user.activeList },
+      relations: ['item'],
+    });
+    return { name: user.activeList.name, list: result };
   } catch (e) {
     throw e;
   }
 }
 
-function checkList(data: CurrentList) {
-  logger.info(data);
-  if (data != null) throw Error('List already exists');
-}
-
 function checkUser(user: User) {
-  logger.info(user);
   if (!user) throw Error('User does not exist');
 }

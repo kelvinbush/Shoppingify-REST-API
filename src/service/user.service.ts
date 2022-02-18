@@ -28,7 +28,6 @@ export async function validatePassword({
   const user = await getPartialUserByEmail(email);
   if (!user) return false;
   const isValid = await user.comparePassword(password);
-  logger.info(user.password);
   if (!isValid) return false;
   return user;
 }
@@ -37,7 +36,6 @@ export async function getPartialUserByEmail(email: string) {
   try {
     const userRepo = getRepository(User);
     const user = await userRepo.findOne({ where: { email } });
-
     if (!user) return false;
     return user;
   } catch (e) {

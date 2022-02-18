@@ -42,7 +42,6 @@ export class User {
   }
 
   async comparePassword(candidatePassword: string) {
-    logger.info(this.password);
     try {
       return await argon2.verify(this.password, candidatePassword);
     } catch (e) {
