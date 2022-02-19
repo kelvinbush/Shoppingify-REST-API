@@ -1,9 +1,10 @@
 import { CreateActiveListInput } from '../utils/my-types';
-import { getRepository } from 'typeorm';
+import { getManager, getRepository } from 'typeorm';
 import { CurrentList } from '../entity/CurrentList';
 import { ActiveListItem } from '../entity/ActiveListItem';
 import { Item } from '../entity/Item';
 import { User } from '../entity/User';
+import { CategoryItem } from '../entity/CategoryItem';
 
 export async function createActiveList(
   data: CreateActiveListInput,
@@ -24,7 +25,7 @@ export async function createActiveList(
       const activeItem = activeRepo.create({
         item: item,
         quantity: listItem.quantity,
-        current,
+        current
       });
       await activeRepo.save(activeItem);
     }
@@ -34,15 +35,19 @@ export async function createActiveList(
   }
 }
 
-export async function getCurrentList(userId: string) {
+export async function getCurrentList(user: User) {
   try {
-    const user = await getRepository(User).findOne({ id: userId });
-    checkUser(user);
-    const result = await getRepository(ActiveListItem).find({
-      where: { current: user.activeList },
-      relations: ['item'],
-    });
-    return { name: user.activeList.name, list: result };
+    const myItems = await getManager()
+      .createQueryBuilder(ActiveListItem, 'active')
+      .select('item.id', 'id')
+      .addSelect('item.name', 'name')
+      .addSelect('active.quantity', 'quantity')
+      .addSelect('category.name', 'category')
+      .leftJoin(Item, 'item', 'item.id = active.itemId')
+      .leftJoin(CategoryItem, 'category', 'category.id = item.category_id')
+      .where('active.currentId = :id', { id: user.activeList.id })
+      .getRawMany();
+    return { name: user.activeList.name, list: myItems };
   } catch (e) {
     throw e;
   }
