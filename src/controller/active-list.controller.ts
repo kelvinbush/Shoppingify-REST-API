@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import logger from '../utils/logger';
-import { createActiveList, getCurrentList, toggleItemSelect } from '../service/active-list.service';
+import { addItemToList, createActiveList, getCurrentList, toggleItemSelect } from '../service/active-list.service';
 import { CreateActiveListInput } from '../utils/my-types';
 import { User } from '../entity/User';
 
@@ -29,7 +29,17 @@ export async function getActiveListHandler(req: Request, res: Response) {
 
 export async function toggleItemSelectHandler(req: Request, res: Response) {
   try {
-    await toggleItemSelect(req.body.itemId, req.body.isSelected, res.locals.user.activeList);
+    await toggleItemSelect(req.body.itemId, req.body.isSelected);
+    return res.send({ complete: true });
+  } catch (e) {
+    logger.error(e);
+    return res.sendStatus(500);
+  }
+}
+
+export async function addToActiveListHandler(req: Request, res: Response) {
+  try {
+    await addItemToList(req.body, res.locals.user.activeList);
     return res.send({ complete: true });
   } catch (e) {
     logger.error(e);

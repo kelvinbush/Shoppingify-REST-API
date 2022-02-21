@@ -8,6 +8,7 @@ import { createUserHandler } from './controller/user.controller';
 import { createItemSchema } from './schema/createItemSchema';
 import { createItemHandler, getAllItemsHandler } from './controller/item.controller';
 import {
+  addToActiveListHandler,
   createActiveListHandler,
   getActiveListHandler,
   toggleItemSelectHandler
@@ -42,6 +43,7 @@ function routes(app: Express) {
   app.post('/api/active', requireUser, createActiveListHandler);
   app.get('/api/active', requireUser, getActiveListHandler);
   app.patch('/api/active', requireUser, toggleItemSelectHandler);
+  app.post('/api/active-add', requireUser, addToActiveListHandler);
 }
 
 export default routes;

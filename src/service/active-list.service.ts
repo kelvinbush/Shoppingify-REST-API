@@ -1,4 +1,4 @@
-import { CreateActiveListInput } from '../utils/my-types';
+import { ActiveListItemInput, CreateActiveListInput } from '../utils/my-types';
 import { getConnection, getManager, getRepository } from 'typeorm';
 import { CurrentList } from '../entity/CurrentList';
 import { ActiveListItem } from '../entity/ActiveListItem';
@@ -55,7 +55,7 @@ export async function getCurrentList(user: User) {
   }
 }
 
-export async function toggleItemSelect(itemId, isSelected, activeList) {
+export async function toggleItemSelect(itemId, isSelected) {
   try {
     await getConnection()
       .createQueryBuilder()
@@ -63,6 +63,22 @@ export async function toggleItemSelect(itemId, isSelected, activeList) {
       .set({ isSelected })
       .where('id = :id', { id: itemId })
       .execute();
+    return;
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function addItemToList(input: ActiveListItemInput, current: CurrentList) {
+  try {
+    const item = await getConnection()
+      .getRepository(Item)
+      .createQueryBuilder('item')
+      .where('item.id = :id', { id: input.itemId })
+      .getOne();
+    const activeRepo = getRepository(ActiveListItem);
+    const activeItem = activeRepo.create({ item, current, isSelected: false, quantity: input.quantity });
+    await activeRepo.save(activeItem);
     return;
   } catch (e) {
     throw e;

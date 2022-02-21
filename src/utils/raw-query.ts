@@ -3,15 +3,10 @@ import { ActiveListItem } from '../entity/ActiveListItem';
 import { getRepository } from 'typeorm';
 
 export const createActiveListQuery = (
-  data: ActiveListItemInput[],
+  item: ActiveListItemInput,
   currentId: string
 ): string => {
-  let complete = ``;
-
-  data.forEach((item) => {
-    complete += `('${item.itemId}${currentId}','${item.quantity}','${item.itemId}','${currentId}'),`;
-  });
-  complete = complete.slice(0, -1);
+  let complete =  `('${item.itemId}${currentId}','${item.quantity}','${item.itemId}','${currentId}')`;
 
   return `INSERT INTO active_list_item (id, quantity, itemId, currentId) VALUES${complete};`;
 };
