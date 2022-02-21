@@ -1,9 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Item } from './Item';
 import { Min } from 'class-validator';
 import { CurrentList } from './CurrentList';
 
 @Entity('active_list_item')
+@Unique('index_name', ['item', 'current'])
 export class ActiveListItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
