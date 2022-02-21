@@ -11,7 +11,7 @@ import {
   addToActiveListHandler,
   createActiveListHandler, deleteActiveListItemHandler,
   getActiveListHandler,
-  toggleItemSelectHandler,
+  toggleItemSelectHandler, updateCurrentListNameHandler,
   updateItemQuantityHandler
 } from './controller/active-list.controller';
 
@@ -47,7 +47,7 @@ function routes(app: Express) {
   app.post('/api/active-add', requireUser, addToActiveListHandler);
   app.patch('/api/active-add', requireUser, updateItemQuantityHandler);
   app.patch('/api/active-del', requireUser, deleteActiveListItemHandler);
-
+  app.patch('/api/active-name', requireUser, updateCurrentListNameHandler);
 }
 
 export default routes;

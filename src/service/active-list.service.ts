@@ -99,6 +99,20 @@ export async function updateItemQuantity({ quantity, activeId }) {
   }
 }
 
+export async function updateCurrentListName(current: CurrentList, name: string) {
+  try {
+    await getConnection()
+      .createQueryBuilder()
+      .update(CurrentList)
+      .set({ name })
+      .where('id = :id', { id: current.id })
+      .execute();
+    return;
+  } catch (e) {
+    throw e;
+  }
+}
+
 export async function deleteActiveListItem(activeId: string) {
   try {
     await getConnection()
