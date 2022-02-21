@@ -1,0 +1,119 @@
+{
+  "items": [
+    {
+      "name": "Banana",
+      "category": "Fruit and Vegetables",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Apples",
+      "category": "Fruit and Vegetables",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Oranges",
+      "category": "Fruit and Vegetables",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Pineapples",
+      "category": "Fruit and Vegetables",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Avocado",
+      "category": "Fruit and Vegetables",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Coke",
+      "category": "Beverages",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Sprite",
+      "category": "Beverages",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Grape Juice",
+      "category": "Beverages",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Black Coffee",
+      "category": "Beverages",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Tea Leaves",
+      "category": "Beverages",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Standing Desk",
+      "category": "Furniture",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Monitor Stand",
+      "category": "Furniture",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Dresser",
+      "category": "Furniture",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Cabinet handles",
+      "category": "Furniture",
+      "note": "note",
+      "imageUrl": ""
+    },
+    {
+      "name": "Foot Stool",
+      "category": "Furniture",
+      "note": "note",
+      "imageUrl": ""
+    }
+  ],
+  "list": {
+    "name": "Shopping for Groceries",
+    "listItems": [
+      {
+        "itemId": "db81feb5-ced7-4509-95b3-b82f794fe8b8",
+        "quantity": 10
+      },
+      {
+        "itemId": "328423ae-3727-43c6-a376-1b64ced57acc",
+        "quantity": 9
+      },
+      {
+        "itemId": "c75c24da-8e91-453f-8c19-281773624a55",
+        "quantity": 5
+      },
+      {
+        "itemId": "2aefe4b0-de60-429f-9b70-58efd98d780f",
+        "quantity": 16
+      },
+      {
+        "itemId": "8243df31-ff89-406a-a53f-44c64206018f",
+        "quantity": 9
+      }
+    ]
+  }
+}
