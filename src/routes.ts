@@ -9,9 +9,10 @@ import { createItemSchema } from './schema/createItemSchema';
 import { createItemHandler, getAllItemsHandler } from './controller/item.controller';
 import {
   addToActiveListHandler,
-  createActiveListHandler,
+  createActiveListHandler, deleteActiveListItemHandler,
   getActiveListHandler,
-  toggleItemSelectHandler
+  toggleItemSelectHandler,
+  updateItemQuantityHandler
 } from './controller/active-list.controller';
 
 function routes(app: Express) {
@@ -44,6 +45,9 @@ function routes(app: Express) {
   app.get('/api/active', requireUser, getActiveListHandler);
   app.patch('/api/active', requireUser, toggleItemSelectHandler);
   app.post('/api/active-add', requireUser, addToActiveListHandler);
+  app.patch('/api/active-add', requireUser, updateItemQuantityHandler);
+  app.patch('/api/active-del', requireUser, deleteActiveListItemHandler);
+
 }
 
 export default routes;

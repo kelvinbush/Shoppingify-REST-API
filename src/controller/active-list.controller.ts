@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
 import logger from '../utils/logger';
-import { addItemToList, createActiveList, getCurrentList, toggleItemSelect } from '../service/active-list.service';
+import {
+  addItemToList,
+  createActiveList, deleteActiveListItem,
+  getCurrentList,
+  toggleItemSelect,
+  updateItemQuantity
+} from '../service/active-list.service';
 import { CreateActiveListInput } from '../utils/my-types';
 import { User } from '../entity/User';
 
@@ -40,6 +46,26 @@ export async function toggleItemSelectHandler(req: Request, res: Response) {
 export async function addToActiveListHandler(req: Request, res: Response) {
   try {
     await addItemToList(req.body, res.locals.user.activeList);
+    return res.send({ complete: true });
+  } catch (e) {
+    logger.error(e);
+    return res.sendStatus(500);
+  }
+}
+
+export async function updateItemQuantityHandler(req: Request, res: Response) {
+  try {
+    await updateItemQuantity(req.body);
+    return res.send({ complete: true });
+  } catch (e) {
+    logger.error(e);
+    return res.sendStatus(500);
+  }
+}
+
+export async function deleteActiveListItemHandler(req: Request, res: Response) {
+  try {
+    await deleteActiveListItem(req.body.activeId);
     return res.send({ complete: true });
   } catch (e) {
     logger.error(e);

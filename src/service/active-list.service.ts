@@ -55,7 +55,7 @@ export async function getCurrentList(user: User) {
   }
 }
 
-export async function toggleItemSelect(itemId, isSelected) {
+export async function toggleItemSelect(itemId: string, isSelected: boolean) {
   try {
     await getConnection()
       .createQueryBuilder()
@@ -79,6 +79,34 @@ export async function addItemToList(input: ActiveListItemInput, current: Current
     const activeRepo = getRepository(ActiveListItem);
     const activeItem = activeRepo.create({ item, current, isSelected: false, quantity: input.quantity });
     await activeRepo.save(activeItem);
+    return;
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function updateItemQuantity({ quantity, activeId }) {
+  try {
+    await getConnection()
+      .createQueryBuilder()
+      .update(ActiveListItem)
+      .set({ quantity })
+      .where('id = :id', { id: activeId })
+      .execute();
+    return;
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function deleteActiveListItem(activeId: string) {
+  try {
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(ActiveListItem)
+      .where('id = :id', { id: activeId })
+      .execute();
     return;
   } catch (e) {
     throw e;
