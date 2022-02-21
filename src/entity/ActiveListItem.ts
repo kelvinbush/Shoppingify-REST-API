@@ -1,12 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Item } from './Item';
 import { Min } from 'class-validator';
 import { CurrentList } from './CurrentList';
@@ -19,6 +11,9 @@ export class ActiveListItem {
   @Min(1)
   @Column({ nullable: false, default: 1 })
   quantity: number;
+
+  @Column({ default: false })
+  isSelected: boolean;
 
   @ManyToOne(() => Item)
   item: Item;

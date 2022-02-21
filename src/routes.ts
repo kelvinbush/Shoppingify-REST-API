@@ -1,22 +1,16 @@
 import { Express, Request, Response } from 'express';
 import validateResource from './middleware/validateResource';
 import { createSessionSchema } from './schema/createSessionSchema';
-import {
-  createSessionHandler,
-  deleteSessionHandler,
-  getSessionsHandler,
-} from './controller/session.controller';
+import { createSessionHandler, deleteSessionHandler, getSessionsHandler } from './controller/session.controller';
 import requireUser from './middleware/requireUser';
 import { createUserSchema } from './schema/createUserSchema';
 import { createUserHandler } from './controller/user.controller';
 import { createItemSchema } from './schema/createItemSchema';
-import {
-  createItemHandler,
-  getAllItemsHandler,
-} from './controller/item.controller';
+import { createItemHandler, getAllItemsHandler } from './controller/item.controller';
 import {
   createActiveListHandler,
   getActiveListHandler,
+  toggleItemSelectHandler
 } from './controller/active-list.controller';
 
 function routes(app: Express) {
@@ -47,6 +41,7 @@ function routes(app: Express) {
   // active-list
   app.post('/api/active', requireUser, createActiveListHandler);
   app.get('/api/active', requireUser, getActiveListHandler);
+  app.patch('/api/active', requireUser, toggleItemSelectHandler);
 }
 
 export default routes;

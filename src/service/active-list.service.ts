@@ -1,5 +1,5 @@
 import { CreateActiveListInput } from '../utils/my-types';
-import { getManager, getRepository } from 'typeorm';
+import { getConnection, getManager, getRepository } from 'typeorm';
 import { CurrentList } from '../entity/CurrentList';
 import { ActiveListItem } from '../entity/ActiveListItem';
 import { Item } from '../entity/Item';
@@ -40,14 +40,30 @@ export async function getCurrentList(user: User) {
     const myItems = await getManager()
       .createQueryBuilder(ActiveListItem, 'active')
       .select('item.id', 'id')
+      .addSelect('active.id', 'activeId')
       .addSelect('item.name', 'name')
       .addSelect('active.quantity', 'quantity')
+      .addSelect('active.isSelected', 'isSelected')
       .addSelect('category.name', 'category')
       .leftJoin(Item, 'item', 'item.id = active.itemId')
       .leftJoin(CategoryItem, 'category', 'category.id = item.category_id')
       .where('active.currentId = :id', { id: user.activeList.id })
       .getRawMany();
     return { name: user.activeList.name, list: myItems };
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function toggleItemSelect(itemId, isSelected, activeList) {
+  try {
+    await getConnection()
+      .createQueryBuilder()
+      .update(ActiveListItem)
+      .set({ isSelected })
+      .where('id = :id', { id: itemId })
+      .execute();
+    return;
   } catch (e) {
     throw e;
   }
