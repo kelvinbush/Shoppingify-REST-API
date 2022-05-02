@@ -54,6 +54,7 @@
       "note": "note",
       "imageUrl": ""
     },
+    {},
     {
       "name": "Tea Leaves",
       "category": "Beverages",
@@ -115,5 +116,32 @@
         "quantity": 9
       }
     ]
+  },
+  "history": {
+    "name": "Shopping for Groceries",
+    "isComplete": true,
+    "listItems": [
+      {
+        "itemId": "376ab6ca-599c-4165-88e7-2ff2f391828e",
+        "quantity": 10
+      },
+      {
+        "itemId": "328423ae-3727-43c6-a376-1b64ced57acc",
+        "quantity": 9
+      },
+      {
+        "itemId": "c75c24da-8e91-453f-8c19-281773624a55",
+        "quantity": 5
+      },
+      {
+        "itemId": "2aefe4b0-de60-429f-9b70-58efd98d780f",
+        "quantity": 16
+      },
+      {
+        "itemId": "8243df31-ff89-406a-a53f-44c64206018f",
+        "quantity": 9
+      }
+    ]
   }
 }
+

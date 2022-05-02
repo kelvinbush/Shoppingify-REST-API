@@ -15,7 +15,7 @@ export class Item {
   @Column({ default: '' })
   imageUrl: string;
 
-  @ManyToOne(() => CategoryItem, { eager: true })
+  @ManyToOne(() => CategoryItem)
   @JoinColumn({ name: 'category_id' })
   category: CategoryItem;
 }

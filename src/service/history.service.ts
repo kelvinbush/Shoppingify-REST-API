@@ -5,6 +5,7 @@ import { HistoryListItem } from '../entity/HistoryListItem';
 import { User } from '../entity/User';
 import { checkUser } from './active-list.service';
 import { Item } from '../entity/Item';
+import logger from '../utils/logger';
 
 export async function createHistoryList(input: CreateHistoryListInput, userId: string) {
   const historyListRepository = getRepository(HistoryList);
@@ -21,11 +22,12 @@ export async function createHistoryList(input: CreateHistoryListInput, userId: s
     });
     await historyListRepository.save(historyList);
     const historyListItems = input.listItems.map(async (item) => {
-      const itemToAdd = itemRepo.findOne({ id: item.itemId });
-      const historyListItem = new HistoryListItem();
-      historyListItem.item = await itemToAdd;
-      historyListItem.history = historyList;
-      historyListItem.quantity = item.quantity;
+      const itemToAdd = await itemRepo.findOne({ id: item.itemId });
+      const historyListItem = listItemRepository.create({
+        item: itemToAdd,
+        history: historyList,
+        quantity: item.quantity
+      });
       await listItemRepository.save(historyListItem);
     });
     await Promise.all(historyListItems);
@@ -55,7 +57,6 @@ export async function getHistoryListItem(historyListId: string) {
   const historyListRepository = getRepository(HistoryList);
   try {
     const historyList = await historyListRepository.findOne({ id: historyListId });
-    checkUser(historyList.user);
     return await historyListItemRepository.find({
       where: { history: historyList },
       relations: ['item']

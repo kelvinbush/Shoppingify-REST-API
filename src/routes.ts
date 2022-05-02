@@ -14,7 +14,7 @@ import {
   toggleItemSelectHandler, updateCurrentListNameHandler,
   updateItemQuantityHandler
 } from './controller/active-list.controller';
-import { createHistoryHandler, getHistoryHandler } from './controller/history.controller';
+import { createHistoryHandler, getHistoryByIdHandler, getHistoryHandler } from './controller/history.controller';
 
 function routes(app: Express) {
   app.get('/health-check', (req: Request, res: Response) =>
@@ -52,7 +52,7 @@ function routes(app: Express) {
 
   // history
   app.get('/api/history', requireUser, getHistoryHandler);
-  app.get('/api/history/:id', requireUser, getHistoryHandler);
+  app.get('/api/history/id', requireUser, getHistoryByIdHandler);
   app.post('/api/history', requireUser, createHistoryHandler);
 }
 
