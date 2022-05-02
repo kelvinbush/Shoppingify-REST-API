@@ -14,6 +14,7 @@ import {
   toggleItemSelectHandler, updateCurrentListNameHandler,
   updateItemQuantityHandler
 } from './controller/active-list.controller';
+import { createHistoryHandler, getHistoryHandler } from './controller/history.controller';
 
 function routes(app: Express) {
   app.get('/health-check', (req: Request, res: Response) =>
@@ -48,6 +49,11 @@ function routes(app: Express) {
   app.patch('/api/active-add', requireUser, updateItemQuantityHandler);
   app.patch('/api/active-del', requireUser, deleteActiveListItemHandler);
   app.patch('/api/active-name', requireUser, updateCurrentListNameHandler);
+
+  // history
+  app.get('/api/history', requireUser, getHistoryHandler);
+  app.get('/api/history/:id', requireUser, getHistoryHandler);
+  app.post('/api/history', requireUser, createHistoryHandler);
 }
 
 export default routes;

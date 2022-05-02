@@ -26,7 +26,7 @@ export async function getHistoryHandler(req: Request, res: Response) {
 
 export async function getHistoryByIdHandler(req: Request, res: Response) {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const history = await getHistoryList(id);
     return res.status(200).json(history);
   } catch (e) {
