@@ -127,6 +127,6 @@ export async function deleteActiveListItem(activeId: string) {
   }
 }
 
-function checkUser(user: User) {
+export function checkUser(user: User) {
   if (!user) throw Error('User does not exist');
 }
