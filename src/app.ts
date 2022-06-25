@@ -9,17 +9,19 @@ import routes from './routes';
 import deserializeUser from './middleware/deserializeUser';
 import cors from 'cors';
 
+
 const port = process.env.PORT || config.get<number>('port');
 const origin = process.env.ORIGIN || config.get<string>('origin');
 
 const app = express();
 
-app.use(
-  cors({
-    origin: origin,
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: origin,
+  credentials: true,
+  exposedHeaders: 'x-access-token'
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
