@@ -40,8 +40,8 @@ export async function updateSession(userId: string) {
 }
 
 export async function reIssueAccessToken({
-  refreshToken,
-}: {
+                                           refreshToken
+                                         }: {
   refreshToken: string;
 }) {
   const { decoded } = verifyJwt(refreshToken, 'refreshTokenPublicKey');
@@ -51,12 +51,9 @@ export async function reIssueAccessToken({
   }
 
   const session = await getRepository(AuthSession).findOne({
-    id: get(decoded, 'session'),{
+    id: get(decoded, 'session')
+  }, { relations: ['user'] });
 
-   }
-  });
-  
-  logger.info(session);
   if (!session || !session.valid) {
     logger.error('invalid session');
     return false;
