@@ -1,3 +1,4 @@
+import { AuthSession } from './AuthSession';
 import {
   BeforeInsert,
   Column,
@@ -40,6 +41,11 @@ export class User {
   async hashPassword() {
     this.password = await argon2.hash(this.password);
   }
+
+  @OneToMany(() => AuthSession, (session) => session.user, {
+    onDelete: 'CASCADE',
+  })
+  session: AuthSession[];
 
   async comparePassword(candidatePassword: string) {
     try {

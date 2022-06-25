@@ -31,6 +31,7 @@ const deserializeUser = async (
     const newAccessToken = await reIssueAccessToken({ refreshToken });
 
     if (newAccessToken) {
+      console.log('found new token');
       res.setHeader('x-access-token', newAccessToken);
     }
 

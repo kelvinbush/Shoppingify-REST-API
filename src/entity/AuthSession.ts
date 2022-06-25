@@ -12,6 +12,6 @@ export class AuthSession {
   @Column({ default: '' })
   userAgent: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
   user: User;
 }
